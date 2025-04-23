@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  apache-php:
+    image: chrasc/xampp-docker-apache-php
+    ports:
+      - "8080:80"
+    volumes:
+      - ./htdocs:/var/www/html
+      - ./apache/default.conf:/etc/apache2/sites-enabled/000-default.conf
+    depends_on:
+      - mariadb
+      - firmador
+    networks:
+      - appnet
+
+  mariadb:
+    image: chrasc/mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: codeerp
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpass
+    volumes:
+      - ./db_data:/var/lib/mysql
+    networks:
+      - appnet
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mariadb
+      MYSQL_ROOT_PASSWORD: rootpass
+    networks:
+      - appnet
+
+  firmador:
+    image: chrasc/svfe-api-firmador
+    container_name: svfe-api-firmador
+    ports:
+      - "8113:8113"
+    volumes:
+      - "./temp:/uploads"
+    networks:
+      - appnet
+
+volumes:
+  db_data:
+
+networks:
+  appnet:
+    driver: bridge
