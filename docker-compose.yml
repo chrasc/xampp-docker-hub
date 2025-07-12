@@ -15,7 +15,7 @@ services:
       - appnet
 
   mariadb:
-    image: chrasc/xampp-docker-mariadb
+    image: chrasc/xampp-docker-mariadb  # <-- corregido aquí
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
@@ -28,7 +28,7 @@ services:
       - appnet
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: chrasc/xampp-docker-phpmyadmin
     restart: always
     ports:
       - "8081:80"
