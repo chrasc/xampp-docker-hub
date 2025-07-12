@@ -15,7 +15,7 @@ services:
       - appnet
 
   mariadb:
-    image: chrasc/mariadb
+    image: chrasc/xampp-docker-mariadb
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
